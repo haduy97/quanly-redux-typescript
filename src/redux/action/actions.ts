@@ -1,105 +1,26 @@
-import { GET_USER, NAME_REDUCER, OPEN_ADD, INPUT_DIALOG, ADD_USER, OPEN_DELETE, SELECTED_USER_DEL, DELETE_USER, INPUT_SEARCH, OPEN_UPDATE, SELECTED_USER_UPDATE, UPDATE_USER } from '../types/types';
-const api = "http://jsonplaceholder.typicode.com/users";
-// export const getUser = (newUser: []) => (dispatch:any) => {
-//     return {
-//         type: GET_USER,
-//         payload: {
-//             users: newUser
-//         },
-//         meta: NAME_REDUCER
-//     }
-// }
+import { GET_USER, NAME_REDUCER, OPEN_ADD, INPUT_DIALOG, ADD_USER, OPEN_DELETE, SELECTED_USER_DEL, DELETE_USER, INPUT_SEARCH, OPEN_UPDATE, SELECTED_USER_UPDATE, UPDATE_USER, GET_USER_SUCCESS } from '../types/types';
+import { action } from "typesafe-actions";
 
-
-export const getUser = () => (dispatch: any) => {
-    const data = fetch(`${api}`)
-        .then(res => {
-            return res.json();
-        }).then(users => {
-            dispatch({
-                type: GET_USER,
-                payload: users,
-                meta: NAME_REDUCER
-            })
-        })
-    return data;
-}
-
-export const inputTextDialog = (payload: string) => {
-    return {
-        type: INPUT_DIALOG,
-        payload,
-        meta: NAME_REDUCER
-    }
-}
+export const getUser = () => action(GET_USER, {isLoading: true},NAME_REDUCER);
+export const getUserSuccess = (listUsers: []) => action(GET_USER_SUCCESS, {isLoading: false,users: listUsers},NAME_REDUCER);
+export const inputTextDialog = (input:string) => action(INPUT_DIALOG,{inputText: input},NAME_REDUCER);
 
 // Add user dialog
-export const openAddUserDialog = (payload: boolean) => {
-    return {
-        type: OPEN_ADD,
-        payload,
-        meta: NAME_REDUCER
-    }
-}
-export const addUserDialog = (payload: Object) => {
-    return {
-        type: ADD_USER,
-        payload,
-        meta: NAME_REDUCER
-    }
-}
+// export const functionName = (params) =>(dispatch,getState)=> {
+//     const {users}= get(getState(),"resource.core",{})
+// }
+export const openAddUserDialog = (open: boolean) => action(OPEN_ADD,{openAdd: open}, NAME_REDUCER);
+export const addUserDialog = (newUser: Object) => action(ADD_USER, newUser,NAME_REDUCER);
 
 // Delete user dialog
-export const openDeleteUserDialog = (payload: boolean) => {
-    return {
-        type: OPEN_DELETE,
-        payload,
-        meta: NAME_REDUCER
-    }
-}
-export const selectedUserDelete = (payload: number | null) => {
-    return {
-        type: SELECTED_USER_DEL,
-        payload,
-        meta: NAME_REDUCER
-    }
-}
-export const deleteUserDialog = (payload: number) => {
-    return {
-        type: DELETE_USER,
-        payload,
-        meta: NAME_REDUCER
-    }
-}
+export const openDeleteUserDialog = (open: boolean) => action(OPEN_DELETE,{openDelete: open},NAME_REDUCER);
+export const selectedUserDelete = (select: number | null) => action(SELECTED_USER_DEL,{selectedDelete: select},NAME_REDUCER );
+export const deleteUserDialog = (deleteUser: number) => action(DELETE_USER, deleteUser,NAME_REDUCER);
 
 // Searching user
-export const searchByUsername = (payload: string) => {
-    return {
-        type: INPUT_SEARCH,
-        payload,
-        meta: NAME_REDUCER
-    }
-}
+export const searchByUsername = (input: string) => action(INPUT_SEARCH,{inputSearch: input},NAME_REDUCER);
 
 // Update user
-export const openUpdateUserDialog = (payload: boolean) => {
-    return {
-        type: OPEN_UPDATE,
-        payload,
-        meta: NAME_REDUCER
-    }
-}
-export const selectedUserUpdate = (payload: number) => {
-    return {
-        type: SELECTED_USER_UPDATE,
-        payload,
-        meta: NAME_REDUCER
-    }
-}
-export const updateUserDialog = (payload: number) => {
-    return {
-        type: UPDATE_USER,
-        payload,
-        meta: NAME_REDUCER
-    }
-}
+export const openUpdateUserDialog = (open: boolean) => action(OPEN_UPDATE, {openUpdate: open},NAME_REDUCER);
+export const selectedUserUpdate = (select: number) => action(SELECTED_USER_UPDATE, {selectedUpdate: select}, NAME_REDUCER);
+export const updateUserDialog = (updateUser: number) => action(UPDATE_USER, updateUser, NAME_REDUCER);
